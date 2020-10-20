@@ -35,6 +35,7 @@ SOFTWARE.
 #include <string>
 #include <vector>
 #include <version>
+#include <IconFontCppHeaders/IconsFontAwesome5.h>
 
 #ifndef IMGUI_VERSION
 #   error "include imgui.h before this header"
@@ -622,7 +623,7 @@ inline void ImGui::FileBrowser::SetTypeFilters(
 
 inline void ImGui::FileBrowser::SetPwdUncatched(const std::filesystem::path &pwd)
 {
-    fileRecords_ = { FileRecord{ true, "..", "[D] ..", "" } };
+    fileRecords_ = { FileRecord{ true, "..", ICON_FA_FOLDER" ..", "" } };
 
     for(auto &p : std::filesystem::directory_iterator(pwd))
     {
@@ -641,7 +642,7 @@ inline void ImGui::FileBrowser::SetPwdUncatched(const std::filesystem::path &pwd
 
         rcd.extension = p.path().filename().extension();
 
-        rcd.showName = (rcd.isDir ? "[D] " : "[F] ") +
+        rcd.showName = (rcd.isDir ? ICON_FA_FOLDER" " : ICON_FA_FILE" ") +
                        u8StrToStr(p.path().filename().u8string());
         fileRecords_.push_back(rcd);
     }
