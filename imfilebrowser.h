@@ -1,4 +1,4 @@
-﻿/*
+/*
 MIT License
 
 Copyright (c) 2019-2020 Zhuang Guan
@@ -39,6 +39,18 @@ SOFTWARE.
 
 #ifndef IMGUI_VERSION
 #   error "include imgui.h before this header"
+#endif
+
+#ifndef IMFILEBROWSER_FOLDER_ICON
+    # define IMFILEBROWSER_FOLDER_ICON "[D]"
+#else
+    # pragma message("Overriding IMFILEBROWSER_FOLDER_ICON default value.")
+#endif
+
+#ifndef IMFILEBROWSER_FILE_ICON
+    # define IMFILEBROWSER_FILE_ICON "[F]"
+#else
+    # pragma message("Overriding IMFILEBROWSER_FILE_ICON default value.")
 #endif
 
 using ImGuiFileBrowserFlags = int;
@@ -623,7 +635,7 @@ inline void ImGui::FileBrowser::SetTypeFilters(
 
 inline void ImGui::FileBrowser::SetPwdUncatched(const std::filesystem::path &pwd)
 {
-    fileRecords_ = { FileRecord{ true, "..", ICON_FA_FOLDER" ..", "" } };
+    fileRecords_ = { FileRecord{true, "..", IMFILEBROWSER_FOLDER_ICON" ..", "" } };
 
     for(auto &p : std::filesystem::directory_iterator(pwd))
     {
@@ -642,7 +654,7 @@ inline void ImGui::FileBrowser::SetPwdUncatched(const std::filesystem::path &pwd
 
         rcd.extension = p.path().filename().extension();
 
-        rcd.showName = (rcd.isDir ? ICON_FA_FOLDER" " : ICON_FA_FILE" ") +
+        rcd.showName = (rcd.isDir ? IMFILEBROWSER_FOLDER_ICON" " : IMFILEBROWSER_FILE_ICON" ") +
                        u8StrToStr(p.path().filename().u8string());
         fileRecords_.push_back(rcd);
     }
