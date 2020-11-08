@@ -43,14 +43,10 @@ SOFTWARE.
 
 #ifndef IMFILEBROWSER_FOLDER_ICON
     # define IMFILEBROWSER_FOLDER_ICON "[D]"
-#else
-    # pragma message("Overriding IMFILEBROWSER_FOLDER_ICON default value.")
 #endif
 
 #ifndef IMFILEBROWSER_FILE_ICON
     # define IMFILEBROWSER_FILE_ICON "[F]"
-#else
-    # pragma message("Overriding IMFILEBROWSER_FILE_ICON default value.")
 #endif
 
 using ImGuiFileBrowserFlags = int;
