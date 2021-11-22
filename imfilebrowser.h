@@ -108,21 +108,21 @@ namespace ImGui
         bool HasSelected() const noexcept;
 
         // set current browsing directory
-        bool SetPwd(const NAMESPACE_FILESYSTEM::path &pwd =
-                                    NAMESPACE_FILESYSTEM::current_path());
+        bool SetPwd(const NAMESPACE_FILESYSTEM ::path &pwd =
+                                    NAMESPACE_FILESYSTEM ::current_path());
 
         // get current browsing directory
-        const NAMESPACE_FILESYSTEM::path &GetPwd() const noexcept;
+        const NAMESPACE_FILESYSTEM ::path &GetPwd() const noexcept;
 
         // returns selected filename. make sense only when HasSelected returns true
         // when ImGuiFileBrowserFlags_MultipleSelection is enabled, only one of
         // selected filename will be returned
-        NAMESPACE_FILESYSTEM::path GetSelected() const;
+        NAMESPACE_FILESYSTEM ::path GetSelected() const;
 
         // returns all selected filenames.
         // when ImGuiFileBrowserFlags_MultipleSelection is enabled, use this
         // instead of GetSelected
-        std::vector<NAMESPACE_FILESYSTEM::path> GetMultiSelected() const;
+        std::vector<NAMESPACE_FILESYSTEM ::path> GetMultiSelected() const;
 
         // set selected filename to empty
         void ClearSelected();
@@ -143,7 +143,7 @@ namespace ImGui
             ~ScopeGuard() { func_(); }
         };
 
-        void SetPwdUncatched(const NAMESPACE_FILESYSTEM::path &pwd);
+        void SetPwdUncatched(const NAMESPACE_FILESYSTEM ::path &pwd);
 
 #ifdef _WIN32
         static std::uint32_t GetDrivesBitMask();
@@ -173,15 +173,15 @@ namespace ImGui
         std::vector<const char*> typeFilters_;
         int typeFilterIndex_;
 
-        NAMESPACE_FILESYSTEM::path pwd_;
-        std::set<NAMESPACE_FILESYSTEM::path> selectedFilenames_;
+        NAMESPACE_FILESYSTEM ::path pwd_;
+        std::set<NAMESPACE_FILESYSTEM ::path> selectedFilenames_;
 
         struct FileRecord
         {
             bool isDir = false;
-            NAMESPACE_FILESYSTEM::path name;
+            NAMESPACE_FILESYSTEM ::path name;
             std::string showName;
-            NAMESPACE_FILESYSTEM::path extension;
+            NAMESPACE_FILESYSTEM ::path extension;
         };
         std::vector<FileRecord> fileRecords_;
 
@@ -209,7 +209,7 @@ inline ImGui::FileBrowser::FileBrowser(ImGuiFileBrowserFlags flags)
 
     inputNameBuf_->at(0) = '\0';
     SetTitle("file browser");
-    SetPwd(NAMESPACE_FILESYSTEM::current_path());
+    SetPwd(NAMESPACE_FILESYSTEM ::current_path());
 
     typeFilters_.clear();
     typeFilterIndex_ = 0;
@@ -383,7 +383,7 @@ inline void ImGui::FileBrowser::Display()
     if(newPwdLastSecIdx >= 0)
     {
         int i = 0;
-        NAMESPACE_FILESYSTEM::path newPwd;
+        NAMESPACE_FILESYSTEM ::path newPwd;
         for(auto &sec : pwd_)
         {
             if(i++ > newPwdLastSecIdx)
@@ -435,7 +435,7 @@ inline void ImGui::FileBrowser::Display()
     // browse files in a child window
 
     float reserveHeight = GetFrameHeightWithSpacing();
-    NAMESPACE_FILESYSTEM::path newPwd; bool setNewPwd = false;
+    NAMESPACE_FILESYSTEM ::path newPwd; bool setNewPwd = false;
     if(!(flags_ & ImGuiFileBrowserFlags_SelectDirectory) &&
        (flags_ & ImGuiFileBrowserFlags_EnterNewFilename))
         reserveHeight += GetFrameHeightWithSpacing();
@@ -578,7 +578,7 @@ inline bool ImGui::FileBrowser::HasSelected() const noexcept
     return ok_;
 }
 
-inline bool ImGui::FileBrowser::SetPwd(const NAMESPACE_FILESYSTEM::path &pwd)
+inline bool ImGui::FileBrowser::SetPwd(const NAMESPACE_FILESYSTEM ::path &pwd)
 {
     try
     {
@@ -594,16 +594,16 @@ inline bool ImGui::FileBrowser::SetPwd(const NAMESPACE_FILESYSTEM::path &pwd)
         statusStr_ = "last error: unknown";
     }
 
-    SetPwdUncatched(NAMESPACE_FILESYSTEM::current_path());
+    SetPwdUncatched(NAMESPACE_FILESYSTEM ::current_path());
     return false;
 }
 
-inline const class NAMESPACE_FILESYSTEM::path &ImGui::FileBrowser::GetPwd() const noexcept
+inline const class NAMESPACE_FILESYSTEM ::path &ImGui::FileBrowser::GetPwd() const noexcept
 {
     return pwd_;
 }
 
-inline NAMESPACE_FILESYSTEM::path ImGui::FileBrowser::GetSelected() const
+inline NAMESPACE_FILESYSTEM ::path ImGui::FileBrowser::GetSelected() const
 {
     // when ok_ is true, selectedFilenames_ may be empty if SelectDirectory
     // is enabled. return pwd in that case.
@@ -612,12 +612,12 @@ inline NAMESPACE_FILESYSTEM::path ImGui::FileBrowser::GetSelected() const
     return pwd_ / *selectedFilenames_.begin();
 }
 
-inline std::vector<NAMESPACE_FILESYSTEM::path>
+inline std::vector<NAMESPACE_FILESYSTEM ::path>
     ImGui::FileBrowser::GetMultiSelected() const
 {
     if(selectedFilenames_.empty())
         return { pwd_ };
-    std::vector<NAMESPACE_FILESYSTEM::path> ret;
+    std::vector<NAMESPACE_FILESYSTEM ::path> ret;
     ret.reserve(selectedFilenames_.size());
     for(auto &s : selectedFilenames_)
         ret.push_back(pwd_ / s);
@@ -638,11 +638,11 @@ inline void ImGui::FileBrowser::SetTypeFilters(
     typeFilterIndex_ = 0;
 }
 
-inline void ImGui::FileBrowser::SetPwdUncatched(const NAMESPACE_FILESYSTEM::path &pwd)
+inline void ImGui::FileBrowser::SetPwdUncatched(const NAMESPACE_FILESYSTEM ::path &pwd)
 {
     fileRecords_ = { FileRecord{true, "..", IMFILEBROWSER_FOLDER_ICON" ..", "" } };
 
-    for(auto &p : NAMESPACE_FILESYSTEM::directory_iterator(pwd))
+    for(auto &p : NAMESPACE_FILESYSTEM ::directory_iterator(pwd))
     {
         FileRecord rcd;
 
